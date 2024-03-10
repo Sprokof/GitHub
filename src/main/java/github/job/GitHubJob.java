@@ -31,10 +31,11 @@ public class GitHubJob {
     }
 
     private LocalDate getTokenExpirationDate() {
-        String date = this.driver.findElements(By.className("text-italic")).stream()
-                .map(WebElement::getText)
-                .findFirst()
-                .orElseThrow();
+        List<WebElement> dates = this.driver.findElements(By.className("text-italic"));
+        if (dates.isEmpty()) {
+            return LocalDate.now();
+        }
+        String date = dates.get(0).getText();
         return DateUtil.parse(date);
 
     }
@@ -80,7 +81,7 @@ public class GitHubJob {
         LocalDate expirationDate = getTokenExpirationDate();
         LocalDate currentDate = LocalDate.now();
         return expirationDate.minusDays(1).equals(currentDate) ||
-          expirationDate.isBefore(currentDate);
+            expirationDate.equals(currentDate) || expirationDate.isBefore(currentDate);
     }
 
 }
