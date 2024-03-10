@@ -12,17 +12,18 @@ public class GenerateTokenApplication {
                 System.getProperty("user.dir") + "/src/main/resources/msedgedriver.exe");
     }
 
+    @SuppressWarnings("InfiniteLoopStatement")
     public static void main(String[] args) throws InterruptedException {
         GitHubJob job = new GitHubJob(new EdgeOptions());
         while (true) {
             boolean expired = job.getPage().tokenExpired();
             if (!expired) {
-                job.reconnect();
+                job.exit();
             } else {
                 String token = job.generateTokenPage().generateToken();
                 NoticeWindow window = new NoticeWindow(token);
                 window.open();
-                job.reconnect();
+                job.exit();
             }
         }
     }

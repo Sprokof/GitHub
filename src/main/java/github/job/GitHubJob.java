@@ -24,9 +24,9 @@ public class GitHubJob {
         this.driver = new EdgeDriver(options);
     }
 
-    public void reconnect() throws InterruptedException {
-        this.driver.quit();
-        this.driver = new EdgeDriver(this.options);
+    public void exit() throws InterruptedException {
+        this.driver.close();
+        this.driver = null;
         GitHubJobUtil.waitDay();
     }
 
@@ -39,11 +39,15 @@ public class GitHubJob {
         return DateUtil.parse(date);
 
     }
-    public GitHubJob getPage() {
+    public GitHubJob getPage() throws InterruptedException {
+        if(this.driver == null) {
+            this.driver = new EdgeDriver(this.options);
+        }
         this.driver.get(GitHubJobUtil.TOKEN_URL);
         this.driver.findElement(By.id("login_field")).sendKeys(GitHubJobUtil.EMAIL);
         this.driver.findElement(By.id("password")).sendKeys(GitHubJobUtil.PASSWORD);
         this.driver.findElement(By.className("js-sign-in-button")).click();
+        Thread.sleep(3000);
         List<WebElement> btnLinks = this.driver.findElements(By.className("btn-link"));
         if (!btnLinks.isEmpty()) {
             WebElement dontAskBtn = btnLinks.get(1);
