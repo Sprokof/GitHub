@@ -3,6 +3,8 @@ package github;
 
 import github.gui.NoticeWindow;
 import github.job.GitHubJob;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
 public class GenerateTokenApplication {
@@ -14,17 +16,15 @@ public class GenerateTokenApplication {
 
     @SuppressWarnings("InfiniteLoopStatement")
     public static void main(String[] args) throws InterruptedException {
-        GitHubJob job = new GitHubJob(new EdgeOptions());
+        GitHubJob job = new GitHubJob();
         while (true) {
-            boolean expired = job.getPage().tokenExpired();
-            if (!expired) {
-                job.exit();
-            } else {
+            boolean expired = job.init(EdgeDriver.class).getPage().tokenExpired();
+            if (expired) {
                 String token = job.generateTokenPage().generateToken();
                 NoticeWindow window = new NoticeWindow(token);
                 window.open();
-                job.exit();
             }
+            job.close();
         }
     }
 }

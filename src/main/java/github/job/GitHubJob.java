@@ -4,7 +4,6 @@ package github.job;
 import github.util.DateUtil;
 import github.util.GitHubJobUtil;
 import org.openqa.selenium.By;
-import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -16,18 +15,17 @@ import java.util.List;
 
 public class GitHubJob {
     private WebDriver driver;
-    private final EdgeOptions options;
 
-    public GitHubJob(EdgeOptions options){
-        this.options = options;
-        options.addArguments("--headless");
-        this.driver = new EdgeDriver(options);
+    public GitHubJob(){}
+
+    public void close() throws InterruptedException {
+        this.driver.close();
+        GitHubJobUtil.waitDay();
     }
 
-    public void exit() throws InterruptedException {
-        this.driver.close();
-        this.driver = null;
-        GitHubJobUtil.waitDay();
+    public GitHubJob init(Class<? extends WebDriver> driverClass) {
+        this.driver = GitHubJobUtil.getDriverWithOptions(driverClass);
+        return this;
     }
 
     private LocalDate getTokenExpirationDate() {
@@ -40,9 +38,6 @@ public class GitHubJob {
 
     }
     public GitHubJob getPage() throws InterruptedException {
-        if(this.driver == null) {
-            this.driver = new EdgeDriver(this.options);
-        }
         this.driver.get(GitHubJobUtil.TOKEN_URL);
         this.driver.findElement(By.id("login_field")).sendKeys(GitHubJobUtil.EMAIL);
         this.driver.findElement(By.id("password")).sendKeys(GitHubJobUtil.PASSWORD);

@@ -1,5 +1,13 @@
 package github.util;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
@@ -48,4 +56,21 @@ public class GitHubJobUtil {
         Thread.sleep(DAY_MILLS);
     }
 
+    public static WebDriver getDriverWithOptions(Class<? extends WebDriver> driverClass) {
+        WebDriver driver = null;
+        if (driverClass.equals(EdgeDriver.class)) {
+            EdgeOptions options = new EdgeOptions();
+            options.addArguments("--headless");
+            driver = new EdgeDriver(options);
+        } else if (driverClass.equals(ChromeDriver.class)) {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            driver = new ChromeDriver(options);
+        } else if (driverClass.equals(FirefoxDriver.class)) {
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("--headless");
+            driver = new FirefoxDriver(options);
+        }
+    return driver;
+    }
 }
