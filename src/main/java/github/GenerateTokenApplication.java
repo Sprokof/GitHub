@@ -20,7 +20,7 @@ public class GenerateTokenApplication {
         while (true) {
             boolean expired = job.init(EdgeDriver.class).getPage().tokenExpired();
             if (expired) {
-                String token = job.generateTokenPage().generateToken();
+                String token = job.generateTokenPage().generateToken();;
                 NoticeWindow window = new NoticeWindow(token);
                 window.open();
             }

@@ -19,7 +19,8 @@ public class GitHubJob {
     public GitHubJob(){}
 
     public void close() throws InterruptedException {
-        this.driver.close();
+        this.driver.quit();
+        this.driver = null;
         GitHubJobUtil.waitDay();
     }
 
@@ -79,8 +80,9 @@ public class GitHubJob {
     public boolean tokenExpired() {
         LocalDate expirationDate = getTokenExpirationDate();
         LocalDate currentDate = LocalDate.now();
-        return expirationDate.minusDays(1).equals(currentDate) ||
-            expirationDate.equals(currentDate) || expirationDate.isBefore(currentDate);
+        return expirationDate.equals(expirationDate);
+        //return expirationDate.minusDays(1).equals(currentDate) ||
+          //  expirationDate.equals(currentDate) || expirationDate.isBefore(currentDate);
     }
 
 }
