@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class GitHubJobUtil {
-    public static final String EMAIL = getProperty("email");
-    public static final String PASSWORD = getProperty("password");
-    public static final String USERNAME = getProperty("username");
+    public static final String EMAIL = getProperty("github.email");
+    public static final String PASSWORD = getProperty("github.password");
+    public static final String USERNAME = getProperty("github.username");
     public static final String TOKEN_URL = "https://github.com/settings/tokens";
     public static final int EXPIRATION_OPTION = 3;
     public static final int DEFAULT_SCOPE = 1;
