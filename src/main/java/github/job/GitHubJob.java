@@ -80,9 +80,8 @@ public class GitHubJob {
     public boolean tokenExpired() {
         LocalDate expirationDate = getTokenExpirationDate();
         LocalDate currentDate = LocalDate.now();
-        return expirationDate.equals(expirationDate);
-        //return expirationDate.minusDays(1).equals(currentDate) ||
-          //  expirationDate.equals(currentDate) || expirationDate.isBefore(currentDate);
+        return expirationDate.minusDays(1).equals(currentDate) ||
+          expirationDate.equals(currentDate) || expirationDate.isBefore(currentDate);
     }
 
 }
