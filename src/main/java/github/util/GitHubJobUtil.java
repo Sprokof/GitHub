@@ -73,7 +73,6 @@ public class GitHubJobUtil {
     return driver;
     }
     public static String getAccessLink(String token) {
-        //return "https://token@github.com/username";
         return ("https://token@github.com/" + USERNAME).replaceAll("(token)", token);
     }
 }
