@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class GitHubJobUtil {
-    public static final String EMAIL = getProperty("github.email");
-    public static final String PASSWORD = getProperty("github.password");
-    public static final String USERNAME = getProperty("github.username");
+    public static final String EMAIL_KEY = "github.email";
+    public static final String PASSWORD_KEY = "github.password";
+    public static final String USERNAME_KEY = "github.username";
     public static final String TOKEN_URL = "https://github.com/settings/tokens";
     public static final int EXPIRATION_OPTION = 3;
     public static final int DEFAULT_SCOPE = 1;
@@ -73,6 +73,6 @@ public class GitHubJobUtil {
     return driver;
     }
     public static String getAccessLink(String token) {
-        return ("https://token@github.com/" + USERNAME).replaceAll("(token)", token);
+        return ("https://token@github.com/" + PropertiesUtil.get(USERNAME_KEY)).replaceAll("(token)", token);
     }
 }

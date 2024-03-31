@@ -15,8 +15,8 @@ public class NoticeWindow  {
     private static final String imageLocation = System.getProperty("user.dir") + "/src/main/resources/github.jpg/";
     private final String accessLink;
 
-    public NoticeWindow(String token) {
-        this.accessLink = GitHubJobUtil.getAccessLink(token);
+    public NoticeWindow(String accessLink) {
+        this.accessLink = accessLink;
     }
 
     public void open() {

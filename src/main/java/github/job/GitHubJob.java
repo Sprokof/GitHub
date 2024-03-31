@@ -3,6 +3,7 @@ package github.job;
 
 import github.util.DateUtil;
 import github.util.GitHubJobUtil;
+import github.util.PropertiesUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,8 +41,8 @@ public class GitHubJob {
     }
     public GitHubJob getPage() throws InterruptedException {
         this.driver.get(GitHubJobUtil.TOKEN_URL);
-        this.driver.findElement(By.id("login_field")).sendKeys(GitHubJobUtil.EMAIL);
-        this.driver.findElement(By.id("password")).sendKeys(GitHubJobUtil.PASSWORD);
+        this.driver.findElement(By.id("login_field")).sendKeys(PropertiesUtil.get(GitHubJobUtil.EMAIL_KEY));
+        this.driver.findElement(By.id("password")).sendKeys(PropertiesUtil.get(GitHubJobUtil.PASSWORD_KEY));
         this.driver.findElement(By.className("js-sign-in-button")).click();
         Thread.sleep(3000);
         List<WebElement> btnLinks = this.driver.findElements(By.className("btn-link"));
