@@ -1,5 +1,6 @@
 package github.util;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -60,18 +61,22 @@ public class GitHubJobUtil {
         if (driverClass.equals(EdgeDriver.class)) {
             EdgeOptions options = new EdgeOptions();
             options.addArguments("--headless", "--remote-allow-origins=*");
+            WebDriverManager.edgedriver().setup();
             driver = new EdgeDriver(options);
         } else if (driverClass.equals(ChromeDriver.class)) {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless", "--remote-allow-origins=*");
+            WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(options);
         } else if (driverClass.equals(FirefoxDriver.class)) {
             FirefoxOptions options = new FirefoxOptions();
             options.addArguments("--headless", "--remote-allow-origins=*");
+            WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver(options);
         }
     return driver;
     }
+
     public static String getAccessLink(String token) {
         return ("https://token@github.com/" + PropertiesUtil.get(USERNAME_KEY)).replaceAll("(token)", token);
     }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +18,7 @@ public class FileUtil {
 
     }
     public static File createOrGetFile(String path, String name) throws IOException {
-        String fileLocation = String.format("%s%s", path, name);
+        String fileLocation = String.format("%s%s%s%s", path, "/Рабочий стол/", name, ".txt");
         File file = new File(fileLocation);
         if (file.createNewFile()) {
             logger.log(Level.SEVERE, "File " + name + " created");
@@ -37,4 +39,5 @@ public class FileUtil {
     private static String appendText(String accessLink) {
         return String.format("%s - %s", LocalDate.now(), accessLink);
     }
+
 }
