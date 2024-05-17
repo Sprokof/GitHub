@@ -2,40 +2,49 @@ package github;
 
 
 import github.gui.NoticeWindow;
-import github.job.GitHubJob;
-import github.util.FileUtil;
-import github.util.GitHubJobUtil;
-import github.util.PropertiesUtil;
-import org.openqa.selenium.edge.EdgeDriver;
+import github.page.BaseRouter;
+import github.util.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class GenerateTokenApplication {
-
-    static {
-        System.setProperty("webdriver.edge.driver",
-                System.getProperty("user.dir") + "/src/main/resources/msedgedriver.exe");
-    }
-
     @SuppressWarnings("InfiniteLoopStatement")
     public static void main(String[] args) throws InterruptedException, IOException {
-        GitHubJob job = new GitHubJob();
         while (true) {
-            boolean expired = job.init(EdgeDriver.class).getPage().tokenExpired();
-            if (expired) {
-                String token = job.generateTokenPage().generateToken();
-                String accessLink = GitHubJobUtil.getAccessLink(token);
-                File file = FileUtil.createOrGetFile(
-                        PropertiesUtil.get(FileUtil.FILE_PATH_KEY),
-                        PropertiesUtil.get(FileUtil.FILE_NAME_KEY)
-                );
-                FileUtil.writeToFile(file, accessLink);
-                NoticeWindow window = new NoticeWindow(accessLink);
-                window.open();
+            BaseRouter baseRouter = new BaseRouter(GitHubJobUtil.START_URL);
 
+            baseRouter
+                    .signInPage().email.fill(PropertiesUtil.get(GitHubJobUtil.EMAIL_KEY))
+                    .signInPage().password.fill(PropertiesUtil.get(GitHubJobUtil.PASSWORD_KEY))
+                    .signInPage().dontAskBtn.click()
+                    .signInPage().signInBtn.click();
+
+            String tokenDesc = baseRouter.tokenPage().tokenDescription.text();
+            LocalDate expiryDate = DateUtil.parse(baseRouter.tokenPage().tokenExpiry.text());
+            if (tokenDesc.contains(GitHubJobUtil.TOKEN_PREFIX) && GitHubJobUtil.tokenExpired(expiryDate)) {
+
+            String token = baseRouter
+                            .tokenPage().selectTokenBtn.click()
+                            .tokenPage().tokenVariants.select(GitHubJobUtil.CLASSIC_TOKEN_INDEX)
+
+                            .generateTokenPage().tokenNote.fill(GitHubJobUtil.generateTokenNote())
+                            .generateTokenPage().expiryTerm.select(GitHubJobUtil.EXPIRATION_OPTION_INDEX)
+                            .generateTokenPage().scopes.check(GitHubJobUtil.DEFAULT_SCOPE_INDEX)
+                            .generateTokenPage().generateButton.click()
+                            .generateTokenPage().newToken.text();
+
+                String link = GitHubJobUtil.getAccessLink(token);
+                NoticeWindow window = new NoticeWindow(link);
+                window.open();
+                File fileToWrite = FileUtil.createOrGetFile(PropertiesUtil.get(FileUtil.FILE_PATH_KEY),
+                        PropertiesUtil.get(FileUtil.FILE_NAME_KEY));
+                FileUtil.writeToFile(fileToWrite, link);
             }
-            job.close();
+            SeleniumUtil.driverClose();
+            GitHubJobUtil.waitDay();
         }
     }
+
 }

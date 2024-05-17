@@ -9,40 +9,22 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import java.io.IOException;
-import java.util.Properties;
+import java.time.LocalDate;
 
 public class GitHubJobUtil {
     public static final String EMAIL_KEY = "github.email";
     public static final String PASSWORD_KEY = "github.password";
     public static final String USERNAME_KEY = "github.username";
-    public static final String TOKEN_URL = "https://github.com/settings/tokens";
-    public static final int EXPIRATION_OPTION = 3;
-    public static final int DEFAULT_SCOPE = 1;
+    public static final String START_URL = "https://github.com/settings/tokens";
+    public static final int EXPIRATION_OPTION_INDEX = 2;
+    public static final int DEFAULT_SCOPE_INDEX = 0;
+    public static final int CLASSIC_TOKEN_INDEX = 1;
     private static final int DAY_MILLS = 86400000;
+    public static final String TOKEN_PREFIX = "token_for_private_purpose";
 
-    private static Properties getApplicationProperties() throws IOException {
-        Properties properties = new Properties();
-        try(var inputStream = GitHubJobUtil.class.getClassLoader().getResourceAsStream("application.properties")) {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return properties;
-    }
-
-    private static String getProperty(String key) {
-        String property = null;
-        try {
-            property = getApplicationProperties().getProperty(key);
-        } catch (IOException e) {
-            System.out.println(e.getCause().getMessage());
-        }
-        return property;
-    }
 
     public static String generateTokenNote() {
-        StringBuilder prefix = new StringBuilder("Token");
+        StringBuilder prefix = new StringBuilder(TOKEN_PREFIX);
         int suffixLength = 5, index = 0;
         while(index != suffixLength){
             int num = (int) (Math.random() * 5);
@@ -80,4 +62,11 @@ public class GitHubJobUtil {
     public static String getAccessLink(String token) {
         return ("https://token@github.com/" + PropertiesUtil.get(USERNAME_KEY)).replaceAll("(token)", token);
     }
+
+    public static boolean tokenExpired(LocalDate expiryDate) {
+        LocalDate currentDate = LocalDate.now();
+        return expiryDate.minusDays(1).equals(currentDate) ||
+                expiryDate.equals(currentDate) || expiryDate.isBefore(currentDate);
+    }
+
 }
