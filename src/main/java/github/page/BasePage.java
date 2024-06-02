@@ -4,7 +4,7 @@ import github.page.instance.Driver;
 import org.openqa.selenium.WebDriver;
 
 public abstract class BasePage {
-    private WebDriver driver = Driver.getInstance();
+    private final WebDriver driver = Driver.getInstance();
 
     public WebDriver getDriver() {
         return driver;

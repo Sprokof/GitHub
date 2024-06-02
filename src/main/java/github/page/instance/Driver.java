@@ -2,7 +2,7 @@ package github.page.instance;
 
 import github.util.GitHubJobUtil;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class Driver {
     private static WebDriver instance;
@@ -13,7 +13,7 @@ public class Driver {
         }
         synchronized (Driver.class) {
             if (instance == null) {
-                    instance = GitHubJobUtil.getDriverWithOptions(EdgeDriver.class);
+                    instance = GitHubJobUtil.getDriverWithOptions(ChromeDriver.class);
             }
         }
     return instance;

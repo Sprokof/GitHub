@@ -47,7 +47,7 @@ public class GitHubJobUtil {
             driver = new EdgeDriver(options);
         } else if (driverClass.equals(ChromeDriver.class)) {
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless", "--remote-allow-origins=*");
+            //options.addArguments("--headless", "--remote-allow-origins=*");
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(options);
         } else if (driverClass.equals(FirefoxDriver.class)) {
@@ -68,5 +68,6 @@ public class GitHubJobUtil {
         return expiryDate.minusDays(1).equals(currentDate) ||
                 expiryDate.equals(currentDate) || expiryDate.isBefore(currentDate);
     }
+
 
 }

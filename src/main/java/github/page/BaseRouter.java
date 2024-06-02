@@ -24,5 +24,4 @@ public class BaseRouter {
         Driver.getInstance().get(url);
     }
 
-
 }
