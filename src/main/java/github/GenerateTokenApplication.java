@@ -20,7 +20,8 @@ public class GenerateTokenApplication {
                     .signInPage().email.fill(PropertiesUtil.get(GitHubJobUtil.EMAIL_KEY))
                     .signInPage().password.fill(PropertiesUtil.get(GitHubJobUtil.PASSWORD_KEY))
                     .signInPage().signInBtn.click()
-                    .signInPage().dontAskBtn.click();
+
+                    .generateSSHKeyPage().dontAskBtn.click();
 
             String tokenDesc = baseRouter.tokenPage().tokenDescription.text();
             LocalDate expiryDate = DateUtil.parse(baseRouter.tokenPage().tokenExpiry.text());

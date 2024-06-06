@@ -8,6 +8,10 @@ public class BaseRouter {
         return (SignInPage) PageFactory.page(SignInPage.class);
     }
 
+    public GenerateSSHKeyPage generateSSHKeyPage() {
+        return (GenerateSSHKeyPage) PageFactory.page(GenerateSSHKeyPage.class);
+    }
+
     public TokenPage tokenPage() {
         return (TokenPage) PageFactory.page(TokenPage.class);
     }
@@ -16,6 +20,7 @@ public class BaseRouter {
         return (GenerateTokenPage) PageFactory.page(GenerateTokenPage.class);
     }
 
+
     public BaseRouter() {
 
     }
@@ -23,5 +28,6 @@ public class BaseRouter {
     public BaseRouter(String url) {
         Driver.getInstance().get(url);
     }
+
 
 }

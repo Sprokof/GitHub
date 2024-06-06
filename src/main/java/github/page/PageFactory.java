@@ -9,7 +9,9 @@ public class PageFactory {
             return new TokenPage();
         } else if (pageClass.equals(GenerateTokenPage.class)) {
             return new GenerateTokenPage();
+        } else if (pageClass.equals(GenerateSSHKeyPage.class)) {
+            return new GenerateSSHKeyPage();
         }
-        return null;
+        throw new IllegalArgumentException("Unknown class " + pageClass.getName() + " method as argument");
     }
 }
