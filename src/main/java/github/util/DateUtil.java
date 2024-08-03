@@ -24,6 +24,7 @@ public class DateUtil {
     }
 
     public static LocalDate parse(String expirationDate) {
+        if (isToday(expirationDate)) return LocalDate.now();
         String parsedDate = expirationDate.replaceAll("(\\w{2}\\s\\w{3},\\s)", "");
         String[] dateItems = parsedDate.split("\\s");
         int month = extractNumericMonth(dateItems[0]);
@@ -37,6 +38,8 @@ public class DateUtil {
     }
 
 
-
+    private static boolean isToday(String expirationDate) {
+        return expirationDate.equals("today");
+    }
 
 }

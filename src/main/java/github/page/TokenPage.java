@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 
 public class TokenPage extends BasePage {
     WebDriver driver = super.getDriver();
-
     private static boolean tokenGenerated;
     public final Button selectTokenBtn = new Button(this.driver.findElement(By.className("select-menu-button")));
     public final Options tokenVariants = new Options( this.driver.findElements(By.className("SelectMenu-item")));
