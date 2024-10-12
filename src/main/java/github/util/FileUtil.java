@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,9 +19,9 @@ public class FileUtil {
         String fileLocation = String.format("%s%s%s%s", path, "/Рабочий стол/", name, ".txt");
         File file = new File(fileLocation);
         if (file.createNewFile()) {
-            logger.log(Level.SEVERE, "File " + name + " created");
+            logger.log(Level.INFO, "File {} created", name);
         } else {
-            logger.log(Level.SEVERE, "File " + name + " already exists");
+            logger.log(Level.INFO, "File {} already exists", name);
         }
         return file;
     }

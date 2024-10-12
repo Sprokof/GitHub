@@ -35,6 +35,7 @@ public class GenerateTokenApplication {
 
            String token = baseRouter
                     .generateTokenPage().tokenNote.fill(GitHubJobUtil.generateTokenNote())
+                    .generateTokenPage().openExpiryTermButton.click()
                     .generateTokenPage().expiryTerm.select(GitHubJobUtil.EXPIRATION_OPTION_INDEX)
                     .generateTokenPage().scopes.check(GitHubJobUtil.DEFAULT_SCOPE_INDEX)
                     .generateTokenPage().generateButton.click()
